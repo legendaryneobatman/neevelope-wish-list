@@ -5,4 +5,11 @@ export default defineNuxtConfig({
   build: {
     transpile: ['trpc-nuxt']
   },
+  nitro: {
+    esbuild: {
+      options: {
+        target: 'esnext'
+      }
+    }
+  }
 })
