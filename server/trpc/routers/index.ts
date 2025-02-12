@@ -1,21 +1,18 @@
-import { z } from 'zod'
-import { publicProcedure, router } from '~/server/trpc/trpc'
-import userRouter from "~/server/api/user/router";
+import {router} from '../trpc'
+import {create} from "~/server/api/users/create";
+import {getMany} from "~/server/api/users/get-many";
+import {getOne} from "~/server/api/users/get-one";
+import {edit} from "~/server/api/users/edit";
 
-export const appRouter = router({
-    hello: publicProcedure
-        .input(
-            z.object({
-                text: z.string().nullish(),
-            }),
-        )
-        .query(({ input }) => {
-            return {
-                greeting: `hello ${input?.text ?? 'world'}`,
-            }
-        }),
-    user: userRouter,
+const usersRouter = router({
+    create,
+    getMany,
+    getOne,
+    edit,
 })
 
-// export type definition of API
+export const appRouter = router({
+    users: usersRouter,
+})
+
 export type AppRouter = typeof appRouter
