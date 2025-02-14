@@ -1,23 +1,22 @@
-import {publicProcedure} from "~/server/trpc/trpc";
 import {users, usersSelectSchema} from "~/server/models";
 import type {z} from "zod";
+import {publicProcedure} from "~/server/trpc/trpc";
 import {eq} from "drizzle-orm";
 import {TRPCError} from "@trpc/server";
 
-export const usersEdit = usersSelectSchema.pick({
+export const usersRemove = usersSelectSchema.pick({
     id: true,
-    firstName: true
 })
 
-export type UsersEditDto = z.infer<typeof usersEdit>
+export type UsersRemoveDto = z.infer<typeof usersRemove>
 
-export const edit = publicProcedure
-    .input(usersEdit)
+export const remove = publicProcedure
+    .input(usersRemove)
     .mutation(async ({input, ctx: {db}}) => {
-        console.log(input)
         const [userToEdit] = await db.select().from(users).where(eq(users.id, input.id))
+
         if (userToEdit) {
-            const result = await db.update(users).set({firstName: input.firstName}).where(eq(users.id, input.id)).returning()
+            const result = await db.delete(users).where(eq(users.id, input.id))
 
             return result
         } else {

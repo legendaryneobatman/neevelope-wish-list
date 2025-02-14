@@ -4,19 +4,12 @@ import {toTypedSchema} from '@vee-validate/zod'
 import * as z from 'zod'
 
 import {Button} from '@/components/ui/button'
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from '@/components/ui/form'
 import {Input} from '@/components/ui/input'
 
-const emit = defineEmits<{
-  (e: 'on-submit', id: number, firstName: string): void
-}>()
+import {useNuxtApp} from "#app";
+
+const {$client} = useNuxtApp();
 
 const formSchema = toTypedSchema(z.object({
   id: z.number().min(0),
@@ -31,11 +24,16 @@ const onSubmit = async () => {
   const {valid, values} = await form.validate();
 
   if (valid && values?.id !== undefined && values?.firstName !== undefined) {
-    emit('on-submit',  values?.id, values?.firstName)
+    editUser(values?.id, values?.firstName)
   }
 }
 
-const debug = () => console.log('ZALUPA')
+const editUser = async (id: number, firstName: string) => {
+  return await $client.users.edit.useMutation().mutate({
+    id: id,
+    firstName: firstName
+  })
+}
 </script>
 
 <template>
