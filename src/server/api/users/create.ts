@@ -1,15 +1,15 @@
-import {publicProcedure} from "~/server/trpc/trpc";
-import {z} from "zod";
-import {users} from "~/server/models";
+import { z } from 'zod'
+import { publicProcedure } from '~/server/trpc/trpc'
+import { users } from '~/server/models'
 
 export const create = publicProcedure
-    .input(
-        z.object({
-            firstName: z.string()
-        })
-    )
-    .mutation(async( {input, ctx}) => {
-        const [user] = await ctx.db.insert(users).values({firstName: input.firstName}).returning();
+  .input(
+    z.object({
+      username: z.string(),
+    }),
+  )
+  .mutation(async ({ input, ctx }) => {
+    const [user] = await ctx.db.insert(users).values({ username: input.username }).returning()
 
-        return user
-    })
+    return user
+  })

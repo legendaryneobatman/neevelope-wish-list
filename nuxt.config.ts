@@ -21,9 +21,6 @@ export default defineNuxtConfig({
     'vuetify-nuxt-module',
     '@pinia/nuxt',
   ],
-  tailwindcss: {
-    cssPath: './src/shared/ui/assets/css/tailwind.css',
-  },
   // custom directories for fsd
   srcDir: 'src/',
   dir: {
@@ -31,4 +28,14 @@ export default defineNuxtConfig({
     assets: 'shared/ui/assets',
     layouts: 'shared/ui/layouts',
   },
+
+
+  tailwindcss: {
+    cssPath: './src/shared/ui/assets/css/tailwind.css',
+  },
+  eslint: {
+    config: {
+      stylistic: true,
+    }
+  }
 });

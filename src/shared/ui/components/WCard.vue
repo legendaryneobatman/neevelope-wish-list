@@ -1,17 +1,21 @@
 <script setup lang="ts">
 interface Props {
-  title?: string;
+  title?: string
 }
 
 withDefaults(defineProps<Props>(), {
   title: '',
-});
+})
 </script>
 
 <template>
-  <VCard :rounded="false" :title="title" class="border-white bg-gray-50">
+  <VCard
+    :rounded="false"
+    :title="title"
+    class="border border-solid border-white bg-gray-50"
+  >
     <VCardText>
-      <slot/>
+      <slot />
     </VCardText>
   </VCard>
 </template>

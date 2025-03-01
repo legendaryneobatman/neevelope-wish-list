@@ -1,51 +1,60 @@
 <script setup lang="ts">
-import { useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
-import * as z from 'zod';
+import { useField, useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import { z } from 'zod'
+import WBtn from '~/shared/ui/components/WBtn.vue'
 
-import { useNuxtApp } from '#app';
-import SquareCard from '~/shared/ui/components/SquareCard.vue';
+export interface Form {
+  id: number
+  username: string
+}
 
-const { $client } = useNuxtApp();
+const emit = defineEmits<{
+  (e: 'on-filter', value: Form): void
+}>()
 
 const validationSchema = toTypedSchema(
-  z.object({
-    id: z.number().min(0),
-    firstName: z.string().min(2).max(50),
-  })
-);
+  z
+    .object({
+      id: z.number().min(0),
+      username: z.string().min(0).max(255),
+    }),
+)
 
-const form = useForm({ validationSchema });
-const [id, idProps] = form.defineField('id');
-const [firstName, firstNameProps] = form.defineField('firstName');
+const form = useForm({ validationSchema })
+const id = useField('id')
+const username = useField('username')
 
-const onSubmit = async () => {
-  const { valid, values } = await form.validate();
-
-  if (valid && values?.id !== undefined && values?.firstName !== undefined) {
-    await editUser(values?.id, values?.firstName);
-  }
-};
-
-const editUser = async (id: number, firstName: string) => {
-  return await $client.users.edit.useMutation().mutate({
-    id: id,
-    firstName: firstName,
-  });
-};
+const onSubmit = form.handleSubmit((submitted) => {
+  emit('on-filter', submitted)
+})
 </script>
 
 <template>
-  <SquareCard>
-    <VForm @submit.prevent="onSubmit">
-      <VTextField v-model="id" v-bind="idProps" placeholder="enter user id" label="User id" />
-      <VTextField
-        v-model="firstName"
-        v-bind="firstNameProps"
-        label="Firstname"
-        placeholder="enter first Name"
-      />
-      <VBtn>Submit</VBtn>
-    </VForm>
-  </SquareCard>
+  <VForm @submit="onSubmit">
+    <VTextField
+      v-model.lazy.number="id.value.value"
+      :error-messages="id.errorMessage.value"
+      type="number"
+      hide-spin-buttons
+      placeholder="enter user id"
+      label="User id"
+    />
+    <VTextField
+      v-model.lazy="username.value.value"
+      :error-messages="username.errorMessage.value"
+      placeholder="enter username"
+      label="username"
+    />
+    <WBtn
+      class="mt-2"
+      type="submit"
+    >
+      Apply filters
+    </WBtn>
+  </VForm>
 </template>
+
+<style scoped>
+
+</style>
