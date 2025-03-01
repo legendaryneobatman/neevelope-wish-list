@@ -1,7 +1,7 @@
-<script setup lang="ts">
-const isOpen = ref<boolean>(false);
-const toggleDrawer =() => isOpen.value = !isOpen.value
-const route = useRoute();
+<script lang="ts" setup>
+const isOpen = ref<boolean>(false)
+const toggleDrawer = () => (isOpen.value = !isOpen.value)
+const route = useRoute()
 
 const routeName = computed(() => route?.meta.name || 'Unnamed Page')
 </script>
@@ -9,20 +9,35 @@ const routeName = computed(() => route?.meta.name || 'Unnamed Page')
 <template>
   <VResponsive>
     <VApp theme="dark">
-      <VAppBar>
-        <VAppBarNavIcon variant="text" @click.stop="toggleDrawer"/>
+      <VAppBar class="border-b-2 border-solid border-white">
+        <VAppBarNavIcon
+          variant="text"
+          @click.stop="toggleDrawer"
+        />
 
-        <VToolbarTitle :text="routeName"/>
+        <VToolbarTitle
+          :text="routeName"
+          class="text-h5"
+        />
 
-        <VSpacer/>
+        <VSpacer />
 
         <template v-if="$vuetify.display.mdAndUp">
-          <VBtn icon="mdi-magnify" variant="text"/>
+          <VBtn
+            icon="mdi-magnify"
+            variant="text"
+          />
 
-          <VBtn icon="mdi-filter" variant="text"/>
+          <VBtn
+            icon="mdi-filter"
+            variant="text"
+          />
         </template>
 
-        <v-btn icon="mdi-dots-vertical" variant="text"/>
+        <v-btn
+          icon="mdi-dots-vertical"
+          variant="text"
+        />
       </VAppBar>
 
       <VNavigationDrawer v-model="isOpen">
@@ -33,7 +48,7 @@ const routeName = computed(() => route?.meta.name || 'Unnamed Page')
 
       <VMain>
         <VContainer>
-          <slot/>
+          <slot />
         </VContainer>
       </VMain>
     </VApp>

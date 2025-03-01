@@ -1,12 +1,10 @@
-import {create} from "~/server/api/users/create";
-import {getMany} from "~/server/api/users/get-many";
-import {getOne} from "~/server/api/users/get-one";
-import {edit} from "~/server/api/users/edit";
-import { router } from '~/server/trpc/trpc';
+import { router } from '~/server/trpc/trpc'
+import { create, getMany, getOne, edit, remove } from '~/server/api/users'
 
 export const usersRouter = router({
-    create,
-    getMany,
-    getOne,
-    edit,
+  create,
+  getMany,
+  getOne,
+  edit,
+  remove,
 })

@@ -13,21 +13,13 @@ module.exports = {
         'plugin:vue/recommended',
         'eslint:recommended',
         '@vue/typescript/recommended',
-        'prettier',
         "plugin:drizzle/all"
     ],
     ignorePatterns: ['src/assets/lib', 'node_modules'],
-    plugins: ['@typescript-eslint', 'prettier'],
+    plugins: ['@typescript-eslint'],
     rules: {
         'no-console': 'warn',
         'no-debugger': 'warn',
-        'prettier/prettier': [
-            'warn',
-            {
-                endOfLine: 'auto',
-                tabWidth: 2,
-            },
-        ],
         'vue/no-multiple-template-root': 'off',
         'vue/no-v-model-argument': 'off',
         'vue/html-self-closing': [
