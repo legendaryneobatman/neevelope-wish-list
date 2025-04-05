@@ -1,5 +1,0 @@
-export * from './create'
-export * from './edit'
-export * from './get-many'
-export * from './get-one'
-export * from './remove'
